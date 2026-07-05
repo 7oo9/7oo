@@ -7,9 +7,6 @@ logging.getLogger("streamlit").setLevel(logging.ERROR)
 import streamlit as st
 import pandas as pd
 import numpy as np
-import matplotlib
-matplotlib.rcParams['font.sans-serif'] = ['SimHei', 'DejaVu Sans', 'WenQuanYi Micro Hei', 'Arial Unicode MS']
-matplotlib.rcParams['axes.unicode_minus'] = False
 import matplotlib.pyplot as plt
 
 from prophet import Prophet
@@ -83,6 +80,10 @@ else:
 
     # 绘图：历史蓝线 + 未来3个月红色高亮
     st.subheader(f"📈 {select_scenic} 综合热度历史走势 & 未来3个月预测")
+    # 每次绘图前重新设置中文，解决网页图表方框乱码
+    plt.rcParams["font.family"] = "SimHei"
+    plt.rcParams["axes.unicode_minus"] = False
+
     fig, ax = plt.subplots(figsize=(12, 4.5))
     model.plot(forecast, ax=ax)
     max_date = scenic_df["ds"].max()
